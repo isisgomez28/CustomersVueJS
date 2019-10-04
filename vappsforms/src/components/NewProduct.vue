@@ -52,8 +52,18 @@ export default {
     }
   },
   methods: {
-    addNewProduct(e) {
-        console.log();
+    addNewProduct(e) {       
+
+        const objUnitOfMeasurement = unitsOfMeasurements.find(element => element.abbreviation === selectedUnit);
+
+        console.log(objUnitOfMeasurement);
+
+        let newProduct =  {
+            code: this.product.code,
+            name: this.product.name,
+            description: this.product.description
+        }
+
         e.preventDefault();          
     },
     fetchUnitsOfMeasurements () {
