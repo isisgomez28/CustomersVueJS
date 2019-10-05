@@ -21,17 +21,19 @@
             <h4>Product Complements</h4>
             <div class="form-group">
                 <label>Unit of Measurement</label>
+                <v-select label="abbreviation" :options="unitsOfMeasurements" :reduce="abbreviation => abbreviation.id" v-model="product.unitOfMeasurementId"></v-select>
                 <!-- <input type="text" class="form-control" placeholder="Default Unit of Measurement" v-model="product.unitOfMeasurement"> -->
-                <select class="form-control" v-model="selectedUnit" required>
+                <!-- <select class="form-control" v-model="selectedUnit" required>                    
                     <option v-for="(unit, id) in unitsOfMeasurements" :key="unit.id">{{ unit.abbreviation }}</option>
-                </select>
+                </select> -->
             </div>
             <div class="form-group">
                 <label>Category</label>
+                <v-select label="name" :options="categories" :reduce="name => name.id" v-model="product.categoryId"></v-select>
                 <!-- <input type="text" class="form-control" placeholder="Category" v-model="product.category"> -->
-                <select class="form-control" v-model="selectedCategory" required>
+                <!-- <select class="form-control" v-model="selectedCategory" required>
                     <option v-for="(category, id) in categories" :key="category.id">{{ category.name }}</option>
-                </select>
+                </select> -->
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
