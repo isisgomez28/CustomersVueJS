@@ -1,10 +1,10 @@
 <template>
-  <div class="newproduct container">
-    <h1 class="page-header">New Product</h1>
+  <div class="productdetails container">    
+    <h1 class="page-header">Product Details</h1>
     
     <div class="row">
         <div class="col-md-8 order-md-1">
-            <form v-on:submit="addNewProduct">
+            <form v-on:submit="saveProduct">
                 <div class="well">
                     <h4>Product Info</h4>
                     <div class="form-group">
@@ -25,11 +25,23 @@
                     <div class="row">
                         <div class="form-group col-md-6 mb-3">
                             <label>Unit of Measurement</label>
-                            <v-select label="abbreviation" :options="unitsOfMeasurements" :reduce="abbreviation => abbreviation.id" v-model="product.unitOfMeasurementId"></v-select>
+                            <p>{{ product.unitOfMeasurement.abbreviation }}</p>
+                            <!-- 
+                              Some improvements for use this in a modal.
+                              It' a best practice to bind the v-select data.someObject or I assume that
+                              this is the thread for the idea https://stackoverflow.com/questions/51392719/set-initial-vuetify-v-select-value
+                            -->
+                            <v-select label="abbreviation" :options="unitsOfMeasurements" v-model="defaultUnit"></v-select>
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label>Category</label>
-                            <v-select label="name" :options="categories" :reduce="name => name.id" v-model="product.categoryId"></v-select>
+                            <p>{{ product.category.name }}</p>
+                            <!-- 
+                              Some improvements for use this in a modal.
+                              It' a best practice to bind the v-select data.someObject or I assume that
+                              this is the thread for the idea https://stackoverflow.com/questions/51392719/set-initial-vuetify-v-select-value
+                            -->
+                            <v-select label="name" :options="categories" v-model="defaultCategory">{{ product.category.name }}</v-select>
                         </div>
                     </div>
                 </div>
@@ -42,7 +54,7 @@
 
 <script>
 export default {
-  name: 'newproduct',
+  name: 'productdetails',
   data () {
     return {
       product: {
@@ -50,64 +62,89 @@ export default {
           name: '',
           description: '',
           enabled: true,
-          unitOfMeasurementId: 0,
-          categoryId: 0,
           unitOfMeasurement: {},
           category: {}
       },
+      defaultUnit: {},
+      defaultCategory: {},
       unitsOfMeasurements: [],
       categories: []
     }
   },
   methods: {
-    addNewProduct(e) {
-        let nProduct = {
+    fetchProduct(id) {
+      this.$http.get('http://localhost:5000/api/products/'+id)
+          .then(function(response){
+            this.product = response.body;
+            this.defaultUnit = response.body.unitOfMeasurement;
+            this.defaultCategory = response.body.category;
+          });     
+
+      console.log(this.product);
+    },
+    saveProduct(e) {
+        console.log("previous to oProduct ");
+
+        let oProduct = {
             code: this.product.code,
             name: this.product.name,
             description: this.product.description,
             enabled: this.product.enabled,
-            unitOfMeasurementId: this.product.unitOfMeasurementId,
-            categoryId: this.product.categoryId
+            unitOfMeasurementId: this.defaultUnit.id,
+            categoryId: this.defaultCategory.id
         };
 
-        /*const selectedUnit = this.unitsOfMeasurements.find(unitOfMeasurement => unitOfMeasurement.id === nProduct.unitOfMeasurementId);
+        /**
+         * This is a workaround for create and update the product using the same form.
+         * First we have the PUT method else the POST method.
+         */
 
-        const selectedCategory = this.categories.find(category => category.id === nProduct.categoryId);
-
-        nProduct.unitOfMeasurement = selectedUnit;
-        nProduct.category= selectedCategory;*/
-
-        this.$http.post("http://localhost:5000/api/products", nProduct)
+        if (this.$route.params.id) {
+          this.$http.put("http://localhost:5000/api/products/" + this.$route.params.id, oProduct)
+              .then(function (response) {
+                console.log(response.body);
+                this.$router.push({path: '/', query: {alert: "Product Updated"}});
+              });
+        }
+        else {
+          this.$http.post("http://localhost:5000/api/products", oProduct)
             .then(function (response){
                 console.log(response.body);
                 this.$router.push({path: '/', query: {alert: "Product Added"}});
-        });
+          });
+        }       
         
         e.preventDefault();
     },
     fetchUnitsOfMeasurements () {
         this.$http.get('http://localhost:5000/api/UnitsOfMeasurements')
         .then(function (response) {
-            //console.log(response.body);
             this.unitsOfMeasurements = response.body;
         });
     },
     fetchCategories () {
         this.$http.get('http://localhost:5000/api/categories')
         .then(function (response) {
-            //console.log(response.body);
             this.categories = response.body;
         });
-    }
+    } 
   },
   created: function () {
     this.fetchUnitsOfMeasurements();
     this.fetchCategories();
+    
+    /**
+     * Validating the presence of the product ID
+     * this is for use in a one component, for modal purpose.
+     */
+    if (this.$route.params.id) {
+      this.fetchProduct(this.$route.params.id);
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-</style>
+  
+  </style>

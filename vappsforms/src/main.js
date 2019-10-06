@@ -13,6 +13,7 @@ import VueResource from 'vue-resource'
 import Products from './components/Products'
 import NewProduct from './components/NewProduct'
 import About from './components/About'
+import ProductDetails from './components/ProductDetails'
 
 /* 
   Searching for handle binding models to select tag vuejs
@@ -35,7 +36,8 @@ const router = new VueRouter({
   routes: [
     {path: '/', component: Products},
     {path: '/about', component: About},
-    {path: '/newproduct', component: NewProduct}
+    {path: '/newproduct', component: NewProduct},
+    {path: '/product/:id', component: ProductDetails}
   ]
 })
 
