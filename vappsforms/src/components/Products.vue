@@ -1,41 +1,36 @@
 <template>
   <div>
-    <div class="container">
-      <button class="btn btn-outline-primary" @click="openModal">Open Modal</button>
-      <ProductModal v-model="modalOpen"></ProductModal>
-    </div>
     <div class="products container">
-        <Alert v-if="alert" v-bind:message="alert"></Alert>
-        <h1 class="page-header">Products</h1>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Code</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Und. Med.</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="product in products" :key="product.id">
-              <td>{{ product.code }}</td>
-              <td>{{ product.description }}</td>
-              <td>{{ product.category.name }}</td>
-              <td>{{ product.unitOfMeasurement.abbreviation }}</td>
-              <td>
-                <router-link class="btn btn-default" v-bind:to="'/product/'+product.id">View</router-link>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>  
+      <Alert v-if="alert" v-bind:message="alert"></Alert>
+      <h1 class="page-header">Products</h1>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Und. Med.</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="product in products" :key="product.id">
+            <td>{{ product.code }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.category.name }}</td>
+            <td>{{ product.unitOfMeasurement.abbreviation }}</td>
+            <td>
+              <router-link class="btn btn-default" v-bind:to="'/product/'+product.id">View</router-link>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>  
   </div>
 </template>
 
 <script>
 import Alert from './Alert';
-import ProductModal from './ProductModal';
 
 export default {
   name: 'products',
@@ -65,8 +60,7 @@ export default {
     this.fetchProducts();
   },
   components: {
-    Alert,
-    ProductModal
+    Alert
   }
 }
 </script>

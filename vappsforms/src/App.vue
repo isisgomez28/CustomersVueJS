@@ -10,6 +10,16 @@ export default {
   name: 'App',
   components: {
     
+  },
+  data () {
+    return {
+      modalOpen: false
+    }
+  },
+  methods: {
+    openModal() {
+      this.modalOpen = !this.modalOpen;
+    }
   }
 }
 </script>
