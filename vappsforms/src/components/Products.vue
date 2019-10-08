@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="container">
+      <button class="btn btn-outline-primary" @click="openModal">Open Modal</button>
+      <ProductModal v-model="modalOpen"></ProductModal>
+    </div>
     <div class="products container">
         <Alert v-if="alert" v-bind:message="alert"></Alert>
         <h1 class="page-header">Products</h1>
@@ -31,7 +35,7 @@
 
 <script>
 import Alert from './Alert';
-import ModalProductDetails from './ProductDetails';
+import ProductModal from './ProductModal';
 
 export default {
   name: 'products',
@@ -60,12 +64,9 @@ export default {
     }
     this.fetchProducts();
   },
-  // updated: function () {
-  //   this.fetchProducts();
-  // },
   components: {
     Alert,
-    ModalProductDetails
+    ProductModal
   }
 }
 </script>

@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="form-group col-md-6 mb-3">
                             <label>Unit of Measurement</label>
-                            <p>{{ product.unitOfMeasurement.abbreviation }}</p>
+                            <!-- <p>{{ product.unitOfMeasurement.abbreviation }}</p> -->
                             <!-- 
                               Some improvements for use this in a modal.
                               It' a best practice to bind the v-select data.someObject or I assume that
@@ -35,7 +35,7 @@
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label>Category</label>
-                            <p>{{ product.category.name }}</p>
+                            <!-- <p>{{ product.category.name }}</p> -->
                             <!-- 
                               Some improvements for use this in a modal.
                               It' a best practice to bind the v-select data.someObject or I assume that
