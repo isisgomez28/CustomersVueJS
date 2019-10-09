@@ -25,12 +25,16 @@
           </tr>
         </tbody>
       </table>
-    </div>  
+    </div>
+    <button class="btn" @click="openModal">Open Modal</button>
+    <ModalDirection v-model="modalOpen"></ModalDirection>
   </div>
 </template>
 
 <script>
 import Alert from './Alert';
+
+import ModalDirection from "@/components/common/ProductModal";
 
 export default {
   name: 'products',
@@ -38,7 +42,7 @@ export default {
     return {
       products: [],
       alert: '',
-      modalOpen: false
+      modalOpen: true
     }
   },
   methods: {
@@ -50,7 +54,8 @@ export default {
         });
     },
     openModal() {
-        this.modalOpen = !this.modalOpen;
+      console.log(123);
+      this.modalOpen = !this.modalOpen;
     }
   },
   created: function () {
@@ -60,7 +65,8 @@ export default {
     this.fetchProducts();
   },
   components: {
-    Alert
+    Alert,
+    ModalDirection
   }
 }
 </script>
