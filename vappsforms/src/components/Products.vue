@@ -20,14 +20,13 @@
             <td>{{ product.category.name }}</td>
             <td>{{ product.unitOfMeasurement.abbreviation }}</td>
             <td>
+              <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
               <router-link class="btn btn-default" v-bind:to="'/product/'+product.id">View</router-link>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <button class="btn" @click="openModal">Open Modal</button>
-    <ModalDirection v-model="modalOpen"></ModalDirection>
   </div>
 </template>
 
@@ -54,7 +53,6 @@ export default {
         });
     },
     openModal() {
-      console.log(123);
       this.modalOpen = !this.modalOpen;
     }
   },

@@ -1,5 +1,6 @@
 <template>
-  <div class="productdetails container">    
+  <div class="productdetails container">
+    <router-link to="/">Back</router-link>
     <h1 class="page-header">Product Details</h1>
     
     <div class="row">
@@ -14,6 +15,11 @@
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text" class="form-control" minlength="4" maxlength="50" required placeholder="Product Name" v-model="product.name">
+                    </div>
+                    <div class="form-group">
+                        <label>Enable</label>
+                        <custom-switch v-model="customSwitch"></custom-switch>
+                        <!-- <input type="checkbox" class="form-control" v-model="product.enabled"> -->
                     </div>
                     <div class="form-group">
                         <label>Description</label>
@@ -53,6 +59,7 @@
 </template>
 
 <script>
+import Switch from './common/switch.vue';
 export default {
   name: 'productdetails',
   data () {
@@ -65,11 +72,15 @@ export default {
           unitOfMeasurement: {},
           category: {}
       },
+      customSwitch: false,
       defaultUnit: {},
       defaultCategory: {},
       unitsOfMeasurements: [],
       categories: []
     }
+  },
+  components: {
+    customSwitch: Switch
   },
   methods: {
     fetchProduct(id) {
@@ -78,6 +89,7 @@ export default {
             this.product = response.body;
             this.defaultUnit = response.body.unitOfMeasurement;
             this.defaultCategory = response.body.category;
+            this.customSwitch = this.product.enabled;
           });     
 
       console.log(this.product);
@@ -89,7 +101,7 @@ export default {
             code: this.product.code,
             name: this.product.name,
             description: this.product.description,
-            enabled: this.product.enabled,
+            enabled: this.customSwitch,
             unitOfMeasurementId: this.defaultUnit.id,
             categoryId: this.defaultCategory.id
         };
