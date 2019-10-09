@@ -1,10 +1,9 @@
 <template>
   <div>
-    <div class="products container">
+    <div class="catalog container">
       <Alert v-if="alert" v-bind:message="alert"></Alert>
-      <h1 class="page-header">Products</h1>
+      <h1 class="page-header">Product Catalog</h1>
       <input class="form-control" placeholder="Enter product name" v-model="filterInput">
-      <br />
       <table class="table table-striped">
         <thead>
           <tr>
@@ -16,14 +15,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="product in filterBy(products, filterInput)" :key="product.id">
+          <tr v-for="product in filterBy(enabledProducts, filterInput)" :key="product.id">
             <td>{{ product.code }}</td>
             <td>{{ product.description }}</td>
             <td>{{ product.category.name }}</td>
             <td>{{ product.unitOfMeasurement.abbreviation }}</td>
             <td>
-              <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-              <router-link class="btn btn-default" v-bind:to="'/product/'+product.id">View</router-link>
+
             </td>
           </tr>
         </tbody>
@@ -33,12 +31,12 @@
 </template>
 
 <script>
-import Alert from './Alert';
+import Alert from '@/components/Alert';
 
 import ModalDirection from "@/components/common/ProductModal";
 
 export default {
-  name: 'products',
+  name: 'catalog',
   data () {
     return {
       products: [],
@@ -46,6 +44,18 @@ export default {
       filterInput: '',
       modalOpen: true
     }
+  },  
+  computed: {
+      /**
+       * https://vuejs.org/v2/guide/list.html
+       * Displaying Filtered/Sorted Results
+       */
+      enabledProducts: function () {          
+          return this.products.filter(function (product) {
+              //console.log(product);
+              return product.enabled;
+          });
+      }
   },
   methods: {
     fetchProducts () {
@@ -55,14 +65,14 @@ export default {
           this.products = response.body;
         });
     },
+    openModal() {
+      this.modalOpen = !this.modalOpen;
+    },
     filterBy (list, value) {
       value = value.charAt(0).toUpperCase() + value.slice(1);
       return list.filter(function (product) {
         return product.name.indexOf(value) >  -1;
       });
-    },
-    openModal() {
-      this.modalOpen = !this.modalOpen;
     }
   },
   created: function () {

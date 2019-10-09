@@ -14,6 +14,7 @@ import Products from './components/Products'
 import NewProduct from './components/NewProduct'
 import About from './components/About'
 import ProductDetails from './components/ProductDetails'
+import ProductCatalog from './components/shoppingcart/ProductCatalog'
 
 /* 
   Searching for handle binding models to select tag vuejs
@@ -37,7 +38,8 @@ const router = new VueRouter({
     {path: '/', component: Products},
     {path: '/about', component: About},
     {path: '/newproduct', component: NewProduct},
-    {path: '/product/:id', component: ProductDetails}
+    {path: '/product/:id', component: ProductDetails},
+    {path: '/catalog', component: ProductCatalog}
   ]
 })
 
@@ -50,6 +52,7 @@ new Vue({
         <h5 class="my-0 mr-md-auto font-weight-normal">Inventory App</h5>
         <nav class="my-2 my-md-0 mr-md-3">          
           <router-link to="/" class="p-2 text-dark">Home</router-link>
+          <router-link to="/catalog" class="p-2 text-dark">Catalog</router-link>
           <router-link to="/about" class="p-2 text-dark">About</router-link>
         </nav>
         <router-link to="/newproduct" class="btn btn-outline-primary">New Product</router-link>
