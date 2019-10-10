@@ -15,6 +15,7 @@ import NewProduct from './components/NewProduct'
 import About from './components/About'
 import ProductDetails from './components/ProductDetails'
 import ProductCatalog from './components/shoppingcart/ProductCatalog'
+import BootstrapVue from 'bootstrap-vue'
 
 /* 
   Searching for handle binding models to select tag vuejs
@@ -23,10 +24,15 @@ import ProductCatalog from './components/shoppingcart/ProductCatalog'
 */
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 Vue.component('v-select', vSelect)
 
+Vue.use(BootstrapVue)
+
 Vue.use(VueResource)
+
 Vue.use(VueRouter)
 
 Vue.config.productionTip = false
